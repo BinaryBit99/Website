@@ -10,7 +10,7 @@
     <p>This is the home page.</p>
     <a href="https://github.com/BinaryBit99">Github link with Programming Projects</a>
     <!-- Link to the About page -->
-    <a href="about.html">Go to About Page</a>
+    <a href="About.html">Go to About Page</a>
     <a href="Projects.html">Go to Personal Projects</a>
     
     <h1>Contact Form</h1>
@@ -38,7 +38,7 @@
             const message = document.getElementById('comments').value; // Ensure this matches the textarea ID
 
             try {
-                const response = await fetch('https://young-bayou-41801-19c16422af79.herokuapp.com/submit', {
+                const response = await fetch('https://barkerportfolio.herokuapp.com/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
