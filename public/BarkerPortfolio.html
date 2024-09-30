@@ -16,16 +16,16 @@
     <h1>Contact Form</h1>
     <form id="contactForm">
         <label for="name">Your Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-
+        <input type="text" id="name" name="name" autocomplete="name" required><br><br>
+    
         <label for="email">Your Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-
+        <input type="email" id="email" name="email" autocomplete="email" required><br><br>
+    
         <label for="comments">Comments:</label><br>
-        <textarea id="comments" name="comments" rows="5" cols="33" required></textarea><br><br>
+        <textarea id="comments" name="comments" rows="5" cols="33" autocomplete="off" required></textarea><br><br>
         <input type="submit" value="Submit">
-        
     </form>
+    
 
     <p id="responseMessage"></p> <!-- Element to show response messages -->
 
@@ -38,7 +38,7 @@
             const message = document.getElementById('comments').value; // Ensure this matches the textarea ID
 
             try {
-                const response = await fetch('http://localhost:3000/submit', {
+                const response = await fetch('https://young-bayou-41801-19c16422af79.herokuapp.com', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

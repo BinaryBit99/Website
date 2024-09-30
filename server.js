@@ -9,11 +9,7 @@ const mongoURI = process.env.MONGO_URI; // Use the environment variable
 const PORT = process.env.PORT || 3000; // Using port 3000 for the backend
 
 // Middleware for CORS
-app.use(cors({
-    origin: 'http://localhost:8000', // Allow requests from this origin (client running on port 8000)
-    methods: ['GET', 'POST', 'OPTIONS'], // Ensure OPTIONS is included
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
-}));
+app.use(cors());
 
 // Middleware for parsing JSON data
 app.use(bodyParser.json());
