@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path'); // Add this for path handling
 
 const app = express();
+const mongoURI = process.env.MONGO_URI; // Use the environment variable
 const PORT = process.env.PORT || 3000; // Using port 3000 for the backend
 
 // Middleware for CORS
@@ -26,9 +27,9 @@ app.get('/', (req, res) => {
 });
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/contactForm')
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Define a schema and model for storing contact form submissions
 const contactSchema = new mongoose.Schema({
