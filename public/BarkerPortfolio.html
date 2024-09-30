@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Evan Barker's Portfolio</h1>
+    <p>This is the home page.</p>
+    <a href="https://github.com/BinaryBit99">Github link with Programming Projects</a>
+    <!-- Link to the About page -->
+    <a href="about.html">Go to About Page</a>
+    <a href="Projects.html">Go to Personal Projects</a>
+    
+    <h1>Contact Form</h1>
+    <form id="contactForm">
+        <label for="name">Your Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Your Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="comments">Comments:</label><br>
+        <textarea id="comments" name="comments" rows="5" cols="33" required></textarea><br><br>
+        <input type="submit" value="Submit">
+        
+    </form>
+
+    <p id="responseMessage"></p> <!-- Element to show response messages -->
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('comments').value; // Ensure this matches the textarea ID
+
+            try {
+                const response = await fetch('http://localhost:3000/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, message }) // Ensure this key matches the one your server expects
+                });
+
+                // Check if the response is successful
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                document.getElementById('responseMessage').innerText = result.message;
+                document.getElementById('contactForm').reset(); // Clear form fields
+
+            } catch (error) {
+                document.getElementById('responseMessage').innerText = 'Error submitting form: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
+
