@@ -9,7 +9,11 @@ const mongoURI = process.env.MONGO_URI; // Use the environment variable
 const PORT = process.env.PORT || 3000; // Using port 3000 for the backend
 
 // Middleware for CORS
-app.use(cors());
+app.use(cors({
+    origin: ['https://barkerportfolio-42ba600f168b.herokuapp.com/'], // Add your front-end URL here
+    methods: ['GET', 'POST', 'OPTIONS'], // Ensure OPTIONS is included
+    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+}));
 
 // Middleware for parsing JSON data
 app.use(bodyParser.json());
