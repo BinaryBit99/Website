@@ -5,62 +5,49 @@ const cors = require('cors');
 const path = require('path'); // For path handling
 
 const app = express();
-const mongoURI = process.env.MONGO_URI; // Use the environment variable
+const mongoURI = process.env.MONGO_URI; 
 const PORT = process.env.PORT || 3000; // Using port 3000 for the backend
 
-// Middleware for CORS
+// Middleware 
 const allowedOrigins = [
     'https://barkerportfolio.ca', 
     'https://www.barkerportfolio.ca'
 ];
-
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin) return callback(null, true); 
         if (allowedOrigins.indexOf(origin) === -1) {
             const msg = 'The CORS policy does not allow access from this origin.';
             return callback(new Error(msg), false);
         }
         return callback(null, true);
     },
-    methods: ['GET', 'POST', 'OPTIONS'], // Ensure OPTIONS is included for preflight requests
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+    methods: ['GET', 'POST', 'OPTIONS'], 
+    credentials: true
 }));
-
-// Middleware for parsing JSON data
 app.use(bodyParser.json());
-
-// Serve static files from the 'public' directory
 app.use(express.static('public'));
-
-// Enforce HTTPS
 app.use((req, res, next) => {
     if (req.headers['x-forwarded-proto'] !== 'https') {
         return res.redirect(`https://${req.headers.host}${req.url}`);
     }
     next();
 });
-
-// Route to serve the main BarkerPortfolio.html file when accessing '/'
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'BarkerPortfolio.html'));
 });
 
-// MongoDB connection
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// Define a schema and model for storing contact form submissions
 const contactSchema = new mongoose.Schema({
     name: String,
     email: String,
     message: String
 });
-
 const Contact = mongoose.model('Contact', contactSchema);
-
-// Route to handle form submissions
+// Route 
 app.post('/submit', async (req, res) => {
     const { name, email, message } = req.body;
 
@@ -78,7 +65,7 @@ app.post('/submit', async (req, res) => {
     }
 });
 
-// Handle preflight requests globally (for CORS support)
+// Handle preflight requests
 app.options('*', cors());
 
 // Start the server
